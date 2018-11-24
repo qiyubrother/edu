@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+	<head>
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			function drawClock(clockId, hour, minute, second) {
+				var clock = document.getElementById(clockId);
+				//设置绘图环境  
+				var cxt = clock.getContext('2d');
+				cxt.scale(0.5, 0.5);
+				//cxt.scale(1, 1);
+
+				//清除画布  
+				cxt.clearRect(0, 0, 500, 500);
+				hour = hour > 12 ? hour - 12 : hour;
+				//表盘  
+				//开始新路径  
+				cxt.beginPath();
+				cxt.lineWidth = 8;
+				cxt.strokeStyle = "block";
+				//路径函数 x,y,r,角度范围,顺时针/逆时针  
+				cxt.arc(250, 250, 200, 0, 360, false);
+				cxt.stroke();
+				cxt.closePath();
+
+				//刻度,利用旋转  
+				//时刻度  
+				for(var i = 0; i < 12; i++) {
+					//保存当前状态  
+					cxt.save();
+					//刻度粗细  
+					cxt.lineWidth = 10;
+					//刻度颜色  
+					cxt.strokeStyle = "black"
+					//设置00点,以画布中心为00  
+					cxt.translate(250, 250);
+					//设置旋转角度 参数是弧度，角度 0--360 弧度角度*Math.PI/180  
+					cxt.rotate(i * 30 * Math.PI / 180);
+					cxt.beginPath();
+					//刻度起始点  
+
+					if(i === 0 || i === 3 || i === 6 || i === 9) {
+						cxt.lineWidth = 12;
+						cxt.moveTo(0, -170);
+					} else {
+						cxt.moveTo(0, -180);
+					}
+
+					//刻度结束点  
+					cxt.lineTo(0, -195);
+					cxt.closePath();
+					cxt.stroke();
+
+					//将旋转后的图片返回原画布  
+					cxt.restore();
+				}
+				//分刻度  
+				for(var i = 0; i < 60; i++) {
+					//保存当前状态  
+					cxt.save();
+					//刻度粗细  
+					cxt.lineWidth = 6;
+					//刻度颜色  
+					cxt.strokeStyle = "black"
+					//设置00点,以画布中心为00  
+					cxt.translate(250, 250);
+					//设置旋转角度 参数是弧度，角度 0--360 弧度角度*Math.PI/180  
+					cxt.rotate(i * 6 * Math.PI / 180);
+					cxt.beginPath();
+					//起始点  
+					cxt.moveTo(0, -188);
+					cxt.lineTo(0, -195);
+					cxt.closePath();
+					cxt.stroke();
+					//将旋转后的图片返回原画布  
+					cxt.restore();
+				}
+				//表盘中心  
+				cxt.beginPath();
+				cxt.lineWidth = 1;
+				cxt.strokeStyle = "red";
+				cxt.fillStyle = "red";
+				//路径函数 x,y,r,角度范围,顺时针/逆时针  
+				cxt.arc(250, 250, 4, 0, 360, false);
+				cxt.fill();
+				cxt.stroke();
+				cxt.closePath();
+				//时针  
+				//保存当前状态  
+				cxt.save();
+				cxt.lineWidth = 10;
+				cxt.strokeStyle = "black";
+				//设置异次元空间00点  
+				cxt.translate(250, 250);
+				//设置旋转角度 参数是弧度，角度 0--360 弧度角度*Math.PI/180  
+				cxt.rotate((hour * 30 * Math.PI / 180) + (minute/60 * 30 * Math.PI / 180));
+				cxt.beginPath();
+				cxt.moveTo(0, -100);
+				cxt.lineTo(0, 20);
+				cxt.closePath();
+				cxt.stroke();
+				cxt.restore();
+				//分针  
+				cxt.save();
+				cxt.lineWidth = "6";
+				cxt.strokeStyle = "black";
+				cxt.translate(250, 250);
+				cxt.rotate(minute * 6 * Math.PI / 180);
+				cxt.beginPath();
+				cxt.moveTo(0, -150);
+				cxt.lineTo(0, 30);
+				cxt.closePath();
+				cxt.stroke();
+				cxt.restore();
+				//          //秒针  
+				cxt.save();
+				cxt.lineWidth = "2";
+				cxt.strokeStyle = "red";
+				cxt.translate(250, 250);
+				cxt.rotate(second * 6 * Math.PI / 180);
+				cxt.beginPath();
+				cxt.moveTo(0, -170);
+				cxt.lineTo(0, 40);
+				cxt.closePath();
+				cxt.stroke();
+				//秒针前端小点  
+				cxt.beginPath();
+				//外环为红色  
+				cxt.strokeStyle = "red";
+				//灰色填充  
+				cxt.fillStyle = "gray";
+				cxt.arc(0, -145, 4, 0, 360, false);
+				cxt.fill();
+				cxt.closePath();
+				cxt.stroke();
+				cxt.restore();
+				//表盘中心  
+				cxt.beginPath();
+				cxt.lineWidth = 1;
+				//外环为红色  
+				cxt.strokeStyle = "red";
+				//灰色填充  
+				cxt.fillStyle = "gray";
+				//路径函数 x,y,r,角度范围,顺时针/逆时针  
+				cxt.arc(250, 250, 4, 0, 360, false);
+				cxt.fill();
+				cxt.stroke();
+				cxt.closePath();
+			}
+		</script>
+		<script>
+			$(function() {
+				for(i = 1; i <= 12; i++) {
+					var hour = Math.floor(Math.random() * 24); // 0 - 24
+					var minute = Math.floor(Math.random() * 60); // 0 - 59
+					var second = Math.floor(Math.random() * 60); // 0 - 59
+					drawClock("clock" + i.toString(), hour, minute, second);
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<table id="tbl">
+			<tbody>
+				<tr>
+					<td><canvas width="250" height="250" id="clock1"></canvas></td>
+					<td><canvas width="250" height="250" id="clock2"></canvas></td>
+					<td><canvas width="250" height="250" id="clock3"></canvas></td>
+				</tr>
+				<tr>
+					<td><canvas width="250" height="250" id="clock4"></canvas></td>
+					<td><canvas width="250" height="250" id="clock5"></canvas></td>
+					<td><canvas width="250" height="250" id="clock6"></canvas></td>
+				</tr>
+				<tr>
+					<td><canvas width="250" height="250" id="clock7"></canvas></td>
+					<td><canvas width="250" height="250" id="clock8"></canvas></td>
+					<td><canvas width="250" height="250" id="clock9"></canvas></td>
+				</tr>
+				<tr>
+					<td><canvas width="250" height="250" id="clock10"></canvas></td>
+					<td><canvas width="250" height="250" id="clock11"></canvas></td>
+					<td><canvas width="250" height="250" id="clock12"></canvas></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

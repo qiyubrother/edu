@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <span id="num" 
+            style="border:0px solid royalblue;display: block;width: 500px; height: 500px;text-align: center;line-height: 500px;font-size: 500px;margin:0 auto;margin-top: 100px;">
+        </span>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            function change(){
+                document.getElementById("num").innerText = Math.floor(Math.random() * 10);
+                window.setTimeout(change, 1200);
+            }
+            $(function(){
+                window.setTimeout(change, 0);
+            });
+        </script>
+    </body>
+</html>

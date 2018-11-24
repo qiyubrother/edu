@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+		<link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			table tbody td{border:1px solid lightgray;font-size:24px; font-family: "微软雅黑";}
+			table thead td{font-weight: bold; width: 50%; }
+			/*table {width: 800px !important;}*/
+		</style>
+	<script>
+		$(function(){
+			$("#compute").click(function(){
+				$("#result table tbody tr").remove();
+				for(i=0; i < 10; i++){
+					// 100以内乘加
+					var r1 = 0;
+					{
+						// Get A
+						var va = 0;
+						var v1 = Math.floor(Math.random()*10 + 2); // 0 - 9
+						var v2 = Math.floor(Math.random()*10); // 0 - 9
+						var flg = Math.floor(Math.random()*1); // 0 - 1
+						if (flg === 1){
+							va = v1 * 10 + v2;
+						}
+						else{
+							va = v1;
+						}
+						// Get B
+						var vb = 0;
+						do{
+							var v1 = Math.floor(Math.random()*10); // 0 - 9
+							var v2 = Math.floor(Math.random()*10); // 0 - 9
+							if (va < 10)
+							{
+								vb = v1 * 10 + v2;
+							}else{
+								vb = v1;
+							}
+						}while(vb <= 0 || (vb * va > 98) ||(va <=4 && vb <=4));
+						// Get C
+						var vc = 0;
+						do{
+							var v1 = Math.floor(Math.random()*10); // 0 - 9
+							var v2 = Math.floor(Math.random()*10); // 0 - 9
+							vc = v1 * 10 + v2;
+						}while(vc <= 1 || (vb * va > 100) || (vb * va + vc > 100));
+						r1 = va + " x " + vb + " + " + vc + "&nbsp;=&nbsp;"; // 结果
+					}
+					// 100以内乘减
+					var r2 = 0;
+					{
+						// Get D
+						var va = 0;
+						var v1 = Math.floor(Math.random()*10 + 2); // 0 - 9
+						var v2 = Math.floor(Math.random()*10); // 0 - 9
+						var flg = Math.floor(Math.random()*1); // 0 - 1
+						if (flg === 1){
+							va = v1 * 10 + v2;
+						}
+						else{
+							va = v1;
+						}
+						// Get B
+						var vb = 0;
+						do{
+							var v1 = Math.floor(Math.random()*10); // 0 - 9
+							var v2 = Math.floor(Math.random()*10); // 0 - 9
+							if (va < 10)
+							{
+								vb = v1 * 10 + v2;
+							}else{
+								vb = v1;
+							}
+						}while(vb <= 0 || (vb * va > 98) ||(va <=5 && vb <=5));
+						// Get C
+						var vc = 0;
+						do{
+							var v1 = Math.floor(Math.random()*10); // 0 - 9
+							var v2 = Math.floor(Math.random()*10); // 0 - 9
+							vc = v1 * 10 + v2;
+						}while(vc <= 1 || (vb * va > 100) || (vb * va - vc < 0));
+						r2 = va + " x " + vb + " - " + vc + "&nbsp;=&nbsp;";
+					}
+
+					
+					$("#result table tbody").append("<tr><td>" + r1 + "</td><td>" + r2 + "</td></tr>");
+					$("#result table tbody").append("<tr><td>&nbsp;</td><td>&nbsp;</td></tr>");
+				}
+			});
+		});
+	</script>
+	</head>
+	<body>
+		<h3 class="text-center">100以内乘加乘减自动出题程序</h1>
+		<p>
+			<a href="#" id="compute" class="btn btn-default">自动出题</a>
+		</p>
+		<div id="result">
+			<table class="table">
+<!--				<thead><tr><td>乘加</td><td>乘减</td></tr></thead>-->
+				<tbody></tbody>
+			<table>
+		</div>
+	</body>
+	
+
+</html>
